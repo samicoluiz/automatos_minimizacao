@@ -1,4 +1,6 @@
 from collections import deque
+from itertools import accumulate
+
 
 class Automato:
     """Implementa um automato finito determinístico (AFD) que obedece a 
@@ -13,6 +15,7 @@ class Automato:
     
     estados_finitos: set[str]
     alfabeto: set[str]
+    transicoes: dict[dict[str, str]]
     estado_inicial: str
     conj_estados_finais: set[str]
     fita: deque[str]
@@ -91,6 +94,10 @@ class MaquinaEstados():
     determinística por composição da classe Automato.
     """
     
+    funcao_transicao: dict[dict[str, str]]
+    estado_inicial: str
+    estados_finais: set[str]
+
     def __init__(self, funcao_de_transicao, estado_inicial, estados_finais):
         self.transicao = funcao_de_transicao  # delta(p, rho) -> q
         self.estados_finais = estados_finais
@@ -99,6 +106,12 @@ class MaquinaEstados():
         self.cadeia_restante = None
         self.posicao_cursor = 0
     
+    def aplicar_transicao(self, estado, simbolo):
+        """Aplica a função de transição e retorna o novo estado."""
+        
+        return self.transicao[(estado, simbolo)]
+
+
     # Opcao com recurcao
     def reconhecer_cadeia(self, cadeia):
         """Reconhece uma cadeia inteira na fita, de acordo com a 
