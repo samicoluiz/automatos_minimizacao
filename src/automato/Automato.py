@@ -10,7 +10,7 @@ class Automato:
     Σ: Alfabeto
     δ: Função de transição
     q0: Estado inicial
-    F: Conjunto de estados finais
+    F: Conjunto de estados finai
     """
     
     estados_finitos: set[str]
@@ -46,7 +46,8 @@ class Automato:
         # Aqui é preciso aplicar a técnica de minimização em ambos 
         # automatos, o que implica implementar 1. os algoritmos de remoção
         # de transições em vazio; 2. de remoção de não-determinismos;
-        # 3. de remoção de estados inúteis ou inacessíveis, nesta ordem.
+        # 3. de remoção de estados inúteis ou inacessíveis, e o
+        # algoritmo de minimização, nesta ordem.
         #
         # minimo_self = self.rm_transicoes_vazio().rm_nao_determinismo().rm_estados_inuteis()
         # minimo_o = o.rm_transicoes_vazio().rm_nao_determinismo().rm_estados_inuteis()
@@ -95,15 +96,17 @@ class MaquinaEstados():
     estado_inicial: str
     estados_finais: set[str]
 
+
     def __init__(self, automato: Automato):
-        self.transicao = automato.transicoes  # delta(p, rho) -> q
+        self.transicao = automato.transicoes
         self.estados_finais = automato.estados_finais
         self.estado_inical = automato.estado_inicial
         self.__estado_atual = automato.estado_inicial
         self.cadeia_restante = None
         self.posicao_cursor = 0
+        self.movimentos = list()
     
-    def aplicar_transicao(self, simbolo):
+    def config_seguinte(self, simbolo):
         """Aplica a função de transição δ(p, σ) -> q."""
         self.__estado_atual = self.transicao[self.__estado_atual][simbolo]
 
@@ -112,15 +115,23 @@ class MaquinaEstados():
         """Reconhece uma cadeia inteira na fita, de acordo com a 
         função de transição.
         """
+
+        if self.cadeia_restante == None:
+            self.movimentos = []
+            self.movimentos.append((self.__estado_atual, cadeia))
+        
         resultado = False
         if (self.__estado_atual, cadeia[0]) in self.transicao.keys():
+        
             self.__estado_atual = self.transicao[(self.__estado_atual, cadeia[0])]
             self.cadeia_restante = cadeia[1:]
+            self.movimentos.append((self.__estado_atual, self.cadeia_restante))
             if self.cadeia_restante == "":
                 return True if self.__estado_atual in self.estados_finais else False
             else:
                 resultado = self.reconhecer_cadeia(self.cadeia_restante)
         else:            
-            raise KeyError("Transicao nao definida")
+            return False
         self.__estado_atual = self.estado_inical
+        self.cadeia_restante = None
         return resultado
