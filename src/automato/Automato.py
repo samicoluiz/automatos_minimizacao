@@ -24,15 +24,12 @@ class Automato:
                 estado_inicial, conj_estados_finais):
         self.estados_finitos: set = estados_finitos
         self.alfabeto: set = alfabeto
-        # self.transicoes = transicoes
+        self.transicoes = transicoes
         self.estado_inicial = estado_inicial
         self.estados_finais = conj_estados_finais
         self.fita = deque()
-        # self.cursor = 0
-        self.maquina_estados: MaquinaEstados = MaquinaEstados(
-            transicoes,
-            self.estado_inicial,
-            self.estados_finais)
+        self.cursor = 0
+        self.maquina_estados: MaquinaEstados = MaquinaEstados(self)
 
     def __repr__(self) -> str:
         return f"""\
@@ -98,19 +95,17 @@ class MaquinaEstados():
     estado_inicial: str
     estados_finais: set[str]
 
-    def __init__(self, funcao_de_transicao, estado_inicial, estados_finais):
-        self.transicao = funcao_de_transicao  # delta(p, rho) -> q
-        self.estados_finais = estados_finais
-        self.estado_inical = estado_inicial
-        self.__estado_atual = estado_inicial
+    def __init__(self, automato: Automato):
+        self.transicao = automato.transicoes  # delta(p, rho) -> q
+        self.estados_finais = automato.estados_finais
+        self.estado_inical = automato.estado_inicial
+        self.__estado_atual = automato.estado_inicial
         self.cadeia_restante = None
         self.posicao_cursor = 0
     
-    def aplicar_transicao(self, estado, simbolo):
-        """Aplica a função de transição e retorna o novo estado."""
-        
-        return self.transicao[(estado, simbolo)]
-
+    def aplicar_transicao(self, simbolo):
+        """Aplica a função de transição δ(p, σ) -> q."""
+        self.__estado_atual = self.transicao[self.__estado_atual][simbolo]
 
     # Opcao com recurcao
     def reconhecer_cadeia(self, cadeia):
