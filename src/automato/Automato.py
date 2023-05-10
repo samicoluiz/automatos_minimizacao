@@ -1,5 +1,5 @@
-from collections import deque
 
+from collections import deque
 
 class Automato:
     """Implementa um automato finito determinístico (AFD) que obedece a 
@@ -29,6 +29,7 @@ class Automato:
         self.fita = deque()
         self.cursor = 0
         self.maquina_estados: MaquinaEstados = MaquinaEstados(self)
+
 
     def __repr__(self) -> str:
         return f"""\
