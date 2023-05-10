@@ -40,6 +40,18 @@ class Automato:
         F: {self.estados_finais}\
         """
     
+    def __eq__(self, o: "Automato") -> bool:
+        """Retorna True se os dois automatos forem equivalentes."""
+        # Aqui é preciso aplicar a técnica de minimização em ambos 
+        # automatos, o que implica implementar 1. os algoritmos de remoção
+        # de transições em vazio; 2. de remoção de não-determinismos;
+        # 3. de remoção de estados inúteis ou inacessíveis, e o
+        # algoritmo de minimização, nesta ordem.
+        #
+        # minimo_self = self.rm_transicoes_vazio().rm_nao_determinismo().rm_estados_inuteis()
+        # minimo_o = o.rm_transicoes_vazio().rm_nao_determinismo().rm_estados_inuteis()
+        pass
+
     def escrever_fita(self, cadeia: str) -> None:
         """Escreve uma cadeia de caracteres na fita."""
         self.fita.clear()
@@ -62,6 +74,21 @@ class Automato:
         estado_parada = self.maquina_estados.estado_atual
         return bool(estado_parada in self.estados_finais)
     
+    def rm_transicoes_vazio(self) -> "Automato":
+        """Remove transições em vazio do automato."""
+        # TODO
+        pass
+
+    def rm_nao_determinismo(self) -> "Automato":
+        """Remove não-determinismos do automato."""
+        # TODO
+        pass
+
+    def rm_estados_inuteis(self) -> "Automato":
+        """Remove estados inúteis do automato."""
+        # TODO
+        pass
+
 
 # Maquina de estados
 class MaquinaEstados:
