@@ -1,5 +1,4 @@
 from collections import deque
-from itertools import accumulate
 
 
 class Automato:
@@ -57,37 +56,42 @@ class Automato:
         """Escreve uma cadeia de caracteres na fita."""
         self.fita.clear()
         self.fita = deque(cadeia)
-        self.fita.append("\0")
-    
-    def ler_celula(self) -> str:
-        """Retorna o conteudo da celula atual da fita."""
-        self.cursor += 1
-        return self.fita.pop()
 
-    def reconhecer_cadeia(self, cadeia) -> bool:
-        """Recebe uma cadeia de caracteres e retorna True se a cadeia 
-        for aceita pelo automato.
+    def reconhecer_cadeia_alt(self, cadeia: str):
+        """Reconhece uma cadeia de caracteres na fita usando uma
+        estrutura do tipo fila (deque).
         """
-        return self.maquina_estados.reconhecer_cadeia(cadeia)
+        self.maquina_estados.resetar()    
+        self.escrever_fita(cadeia)
+        self.maquina_estados.gravar_movimento(self.fita)
+        while self.fita:
+            simbolo = self.fita.popleft()
+            try:
+                self.maquina_estados.config_seguinte(simbolo)
+                self.maquina_estados.gravar_movimento(self.fita)
+            except KeyError:
+                return False
+        estado_parada = self.maquina_estados.estado_atual
+        return bool(estado_parada in self.estados_finais)
     
     def rm_transicoes_vazio(self) -> "Automato":
-        """Retorna um novo automato sem transições em vazio."""
+        """Remove transições em vazio do automato."""
         # TODO
         pass
 
     def rm_nao_determinismo(self) -> "Automato":
-        """Retorna um novo automato sem não-determinismos."""
+        """Remove não-determinismos do automato."""
         # TODO
         pass
 
     def rm_estados_inuteis(self) -> "Automato":
-        """Retorna um novo automato sem estados inuteis."""
+        """Remove estados inúteis do automato."""
         # TODO
         pass
 
 
-#Maquina de estados
-class MaquinaEstados():
+# Maquina de estados
+class MaquinaEstados:
     """Classe que implementa uma máquina de estados finitos 
     determinística por composição da classe Automato.
     """
@@ -101,37 +105,55 @@ class MaquinaEstados():
         self.transicao = automato.transicoes
         self.estados_finais = automato.estados_finais
         self.estado_inical = automato.estado_inicial
-        self.__estado_atual = automato.estado_inicial
+        self.estado_atual = automato.estado_inicial
         self.cadeia_restante = None
         self.posicao_cursor = 0
         self.movimentos = list()
     
     def config_seguinte(self, simbolo):
         """Aplica a função de transição δ(p, σ) -> q."""
-        self.__estado_atual = self.transicao[self.__estado_atual][simbolo]
+        if simbolo != "\0":
+            self.estado_atual = self.transicao[self.estado_atual][simbolo]
+            self.posicao_cursor += 1
 
-    # Opcao com recurcao
-    def reconhecer_cadeia(self, cadeia):
-        """Reconhece uma cadeia inteira na fita, de acordo com a 
-        função de transição.
+    def gravar_movimento(self, cadeia: deque[str]):
+        """Retorna o histórico de movimentos da máquina de estados."""
+        self.movimentos.append((self.estado_atual, "".join(cadeia)))
+
+    def apresentar_movimentos(self):
+        """Formata o conteúdo do histórico de movimentos da máquina de 
+        estados usando o símbolo da catraca.
         """
+        mov_formatados = str(self.movimentos).replace("), ", ") ⊢ ")
+        return mov_formatados
+
+    def resetar(self):
+        """Reseta a máquina de estados."""
+        self.estado_atual = self.estado_inical
+        self.cadeia_restante = None
+        self.posicao_cursor = 0
+        self.movimentos = list()
+
+    # Opcao com recursao
+    def reconhecer_cadeia(self, cadeia):
+        """Reconhece uma cadeia na fita usando recursão."""
 
         if self.cadeia_restante == None:
             self.movimentos = []
-            self.movimentos.append((self.__estado_atual, cadeia))
+            self.movimentos.append((self.estado_atual, cadeia))
         
         resultado = False
-        if (self.__estado_atual, cadeia[0]) in self.transicao.keys():
+        if (self.estado_atual, cadeia[0]) in self.transicao.keys():
         
-            self.__estado_atual = self.transicao[(self.__estado_atual, cadeia[0])]
+            self.estado_atual = self.transicao[(self.estado_atual, cadeia[0])]
             self.cadeia_restante = cadeia[1:]
-            self.movimentos.append((self.__estado_atual, self.cadeia_restante))
+            self.movimentos.append((self.estado_atual, self.cadeia_restante))
             if self.cadeia_restante == "":
-                return True if self.__estado_atual in self.estados_finais else False
+                return True if self.estado_atual in self.estados_finais else False
             else:
                 resultado = self.reconhecer_cadeia(self.cadeia_restante)
         else:            
             return False
-        self.__estado_atual = self.estado_inical
+        self.estado_atual = self.estado_inical
         self.cadeia_restante = None
         return resultado
