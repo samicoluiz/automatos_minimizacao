@@ -12,16 +12,16 @@ class Automato:
     F: Conjunto de estados finai
     """
     
-    estados_finitos: set[str]
+    estados: set[str]
     alfabeto: set[str]
     transicoes: dict[dict[str, str]]
     estado_inicial: str
     conj_estados_finais: set[str]
     fita: deque[str]
 
-    def __init__(self, estados_finitos, alfabeto, transicoes,
+    def __init__(self, estados, alfabeto, transicoes,
                 estado_inicial, conj_estados_finais):
-        self.estados_finitos: set = estados_finitos
+        self.estados: set = estados
         self.alfabeto: set = alfabeto
         self.transicoes = transicoes
         self.estado_inicial = estado_inicial
@@ -33,7 +33,7 @@ class Automato:
     def __repr__(self) -> str:
         return f"""\
         M = (Q, Σ, δ, q0, F)
-        Q: {{{','.join(self.estados_finitos)}}}
+        Q: {{{','.join(self.estados)}}}
         Σ: {{{self.alfabeto}}}
         δ: {self.maquina_estados.transicao}
         q0: {self.estado_inicial}
@@ -130,3 +130,42 @@ class MaquinaEstados:
         self.estado_atual = self.estado_inical
         self.cadeia_restante = None
         return resultado
+
+class Transdutores(Automato):
+    def __init__(self, estados, alfabeto_entrada, alfabeto_saida, transicoes, transducoes, estado_inicial, conj_estados_finais):
+        super().__init__(estados, alfabeto_entrada, transicoes, estado_inicial, conj_estados_finais)
+        self.alfabeto_saida = alfabeto_saida
+        self.transducoes = transducoes
+        self._cadeia_saida = ""
+
+    def reconhecer_cadeia(self, cadeia):
+        """Reconhece uma cadeia na fita usando recursão."""
+
+        if self.maquina_estados.cadeia_restante == None:
+            self.movimentos = []
+            self.movimentos.append((self.maquina_estados.estado_atual, cadeia))
+            self.posicao_cursor = 0
+            self._cadeia_saida = self.transducoes[self.maquina_estados.estado_atual]
+        
+        resultado = False
+        if (self.maquina_estados.estado_atual, cadeia[0]) in self.maquina_estados.transicao.keys():
+            
+            self.maquina_estados.estado_atual = self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
+            self._cadeia_saida += self.transducoes[self.maquina_estados.estado_atual]
+            self.posicao_cursor += 1
+            self.maquina_estados.cadeia_restante = cadeia[1:]
+            self.movimentos.append((self.maquina_estados.estado_atual, self.maquina_estados.cadeia_restante))
+            if self.maquina_estados.cadeia_restante == "":
+                return self._cadeia_saida if self.maquina_estados.estado_atual in self.estados_finais else False
+            else:
+                resultado = self.reconhecer_cadeia(self.maquina_estados.cadeia_restante)
+        else:            
+            return False
+        self.maquina_estados.estado_atual = self.maquina_estados.estado_inical
+        self.maquina_estados.cadeia_restante = None
+        return resultado
+
+
+
+
+
