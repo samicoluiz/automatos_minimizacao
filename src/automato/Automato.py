@@ -11,7 +11,7 @@ class Automato:
     q0: Estado inicial
     F: Conjunto de estados finai
     """
-    
+
     estados: set[str]
     alfabeto: set[str]
     transicoes: dict[dict[str, str]]
