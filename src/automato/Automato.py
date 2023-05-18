@@ -39,7 +39,7 @@ class Automato:
         q0: {self.estado_inicial}
         F: {self.estados_finais}\
         """
-    
+
     def escrever_fita(self, cadeia: str) -> None:
         """Escreve uma cadeia de caracteres na fita."""
         self.fita.clear()
