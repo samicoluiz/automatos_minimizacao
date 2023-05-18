@@ -143,18 +143,27 @@ class Transdutores(Automato):
 
 
         # cadeia = ("25", "50", "100")
-
+ 
         if self.maquina_estados.cadeia_restante == None:
             self.movimentos = []
             self.movimentos.append((self.maquina_estados.estado_atual, ''.join(cadeia)))
             self.posicao_cursor = 0
-            self._cadeia_saida = self.transducoes[self.maquina_estados.estado_atual]
+
+            if self.transducoes[self.maquina_estados.estado_atual] == "cavalodoidodocavalodoidao":
+                self._cadeia_saida = str(self.posicao_cursor - 10)
+            else:
+                self._cadeia_saida = self.transducoes[self.maquina_estados.estado_atual]
         
         resultado = False
+        self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
         if (self.maquina_estados.estado_atual, cadeia[0]) in self.maquina_estados.transicao.keys():
             
             self.maquina_estados.estado_atual = self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
-            self._cadeia_saida += self.transducoes[self.maquina_estados.estado_atual]
+            if self.transducoes[self.maquina_estados.estado_atual] == "cavalodoidodocavalodoidao":
+                self._cadeia_saida += str(self.posicao_cursor - 10) + " "
+            else:
+                self._cadeia_saida += self.transducoes[self.maquina_estados.estado_atual]
+                
             self.posicao_cursor += 1
             self.maquina_estados.cadeia_restante = cadeia[1:]
             self.movimentos.append((self.maquina_estados.estado_atual, self.maquina_estados.cadeia_restante))
