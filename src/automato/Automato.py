@@ -20,7 +20,7 @@ class Automato:
     fita: deque[str]
 
     def __init__(self, estados_finitos, alfabeto, transicoes,
-                estado_inicial, conj_estados_finais):
+                estado_inicial, conj_estados_finais):        
         self.estados_finitos: set = estados_finitos
         self.alfabeto: set = alfabeto
         self.transicoes = transicoes
@@ -29,7 +29,6 @@ class Automato:
         self.fita = deque()
         self.cursor = 0
         self.maquina_estados: MaquinaEstados = MaquinaEstados(self)
-
 
     def __repr__(self) -> str:
         return f"""\
@@ -43,10 +42,11 @@ class Automato:
     
     def __eq__(self, o: "Automato") -> bool:
         """Retorna True se os dois automatos forem equivalentes."""
+
         # Aqui é preciso aplicar a técnica de minimização em ambos 
         # automatos, o que implica implementar 1. os algoritmos de remoção
         # de transições em vazio; 2. de remoção de não-determinismos;
-        # 3. de remoção de estados inúteis ou inacessíveis, e o
+        # 3. de remoção de estados inúteis ou inacessíveis, e 4. o
         # algoritmo de minimização, nesta ordem.
         #
         # minimo_self = self.rm_transicoes_vazio().rm_nao_determinismo().rm_estados_inuteis()
@@ -55,6 +55,7 @@ class Automato:
 
     def escrever_fita(self, cadeia: str) -> None:
         """Escreve uma cadeia de caracteres na fita."""
+
         self.fita.clear()
         self.fita = deque(cadeia)
 
@@ -62,6 +63,7 @@ class Automato:
         """Reconhece uma cadeia de caracteres na fita usando uma
         estrutura do tipo fila (deque).
         """
+
         self.maquina_estados.resetar()    
         self.escrever_fita(cadeia)
         self.maquina_estados.gravar_movimento(self.fita)
@@ -101,7 +103,6 @@ class MaquinaEstados:
     estado_inicial: str
     estados_finais: set[str]
 
-
     def __init__(self, automato: Automato):
         self.transicao = automato.transicoes
         self.estados_finais = automato.estados_finais
@@ -113,6 +114,7 @@ class MaquinaEstados:
     
     def config_seguinte(self, simbolo):
         """Aplica a função de transição δ(p, σ) -> q."""
+
         if simbolo != "\0":
             self.estado_atual = self.transicao[self.estado_atual][simbolo]
             self.posicao_cursor += 1
