@@ -141,9 +141,12 @@ class Transdutores(Automato):
     def reconhecer_cadeia(self, cadeia):
         """Reconhece uma cadeia na fita usando recursão."""
 
+
+        # cadeia = ("25", "50", "100")
+
         if self.maquina_estados.cadeia_restante == None:
             self.movimentos = []
-            self.movimentos.append((self.maquina_estados.estado_atual, cadeia))
+            self.movimentos.append((self.maquina_estados.estado_atual, ''.join(cadeia)))
             self.posicao_cursor = 0
             self._cadeia_saida = self.transducoes[self.maquina_estados.estado_atual]
         
@@ -155,7 +158,7 @@ class Transdutores(Automato):
             self.posicao_cursor += 1
             self.maquina_estados.cadeia_restante = cadeia[1:]
             self.movimentos.append((self.maquina_estados.estado_atual, self.maquina_estados.cadeia_restante))
-            if self.maquina_estados.cadeia_restante == "":
+            if not len(self.maquina_estados.cadeia_restante):
                 return self._cadeia_saida if self.maquina_estados.estado_atual in self.estados_finais else False
             else:
                 resultado = self.reconhecer_cadeia(self.maquina_estados.cadeia_restante)
@@ -164,8 +167,3 @@ class Transdutores(Automato):
         self.maquina_estados.estado_atual = self.maquina_estados.estado_inical
         self.maquina_estados.cadeia_restante = None
         return resultado
-
-
-
-
-
