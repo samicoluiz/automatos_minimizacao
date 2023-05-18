@@ -1,9 +1,9 @@
 from src.automato import Automato
 
-Q = pass
+Q = None
 Alfabeto = set("a", "b", "c")
-delta = pass
-q0 = pass
-F = pass
+delta = None
+q0 = None
+F = None
 
 alpha = Automato(Q, Alfabeto, delta, q0, F)
