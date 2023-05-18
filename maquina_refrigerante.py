@@ -48,3 +48,4 @@ estados_finais = set(["0", "25", "50", "75", "100", "125", "150", "175"])
 #Instância
 maquina_refri = Automato.Transdutores(estados, alfabeto_entrada, alfabeto_saida, funcao_de_transicao, transducoes, estado_inicial, estados_finais)
 print(maquina_refri.reconhecer_cadeia(("50", "25", "50", "100", "25", "50", "100")))
+# Formatação de input do usuário
