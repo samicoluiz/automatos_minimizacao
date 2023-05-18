@@ -1,23 +1,28 @@
-# Automato de teste
 from src.automato import Automato
 
 
-estados = set(["0", "25", "50", "75", "100", "125", "150", "175"])
-alfabeto_entrada = set(['25', '50', '100'])
-alfabeto_saida = set(['0', '1'])
+
+estados = set(["q0", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13"])
+diacriticos = set(['é', 'í', 'á', 'ó', 'ú', 'õ', 'ã', 'â', 'ê', 'ô', 'ç', 'à'])
+alfabeto_entrada = set(set([chr(i) for i in range(32,128)]) + diacriticos + set(map(str.upper, diacriticos)))
+print(alfabeto_entrada)
+
+
+alfabeto_saida = [str(i) for i in range(10)]
 transducoes = {
-    '0': '',
-    '25': '0',
-    '50': '0',
-    '75': '0',
-    '100': '1',
-    '125': '1',
-    '150': '1',
-    '175': '1'
+    'q0': '',
+    'q1': '',
+    'q2': '',
+    'q3': '',
+    'q4': '',
+    'q5': '',
+    'q6': '',
+    '175': ''
 }
+
 funcao_de_transicao = {
-    ('0', '25'): '25',
-    ('0', '50'): '50',
+    ('q0', 'C'): 'q3',
+    ('q0', 1): 'q1',
     ('0', '100'): '100',
     ('25', '25'): '50',
     ('25', '50'): '75',
@@ -42,10 +47,11 @@ funcao_de_transicao = {
     ('175', '100'): '175'    
 }
 
+
+
 estado_inicial = '0'
 estados_finais = set(["0", "25", "50", "75", "100", "125", "150", "175"])
 
 #Instância
 maquina_refri = Automato.Transdutores(estados, alfabeto_entrada, alfabeto_saida, funcao_de_transicao, transducoes, estado_inicial, estados_finais)
 print(maquina_refri.reconhecer_cadeia(("50", "25", "50", "100", "25", "50", "100")))
-# Formatação de input do usuário para receber a fita
