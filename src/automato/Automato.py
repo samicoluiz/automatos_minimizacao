@@ -1,3 +1,5 @@
+from collections import deque
+
 class Automato:
     """Implementa um automato finito determinístico (AFD) que obedece a 
     seguinte definição:
@@ -20,6 +22,7 @@ class Automato:
         # self.cursor = 0
         self.maquina_estados: MaquinaEstados = MaquinaEstados(transicoes, self.estado_inicial, self.estados_finais)
 
+
     def __repr__(self) -> str:
         return f"""\
         M = (Q, Σ, δ, q0, F)
@@ -32,13 +35,16 @@ class Automato:
     
     def __eq__(self, o: Automato) -> bool:
         """Retorna True se os dois automatos forem equivalentes."""
+        
         pass
 
     def reconhecer_cadeia(self, cadeia) -> bool:
         """Recebe uma cadeia de caracteres e retorna True se a cadeia 
         for aceita pelo automato.
         """
+
         return self.maquina_estados.reconhecer_cadeia(cadeia)
+
 
 
 #Maquina de estados
