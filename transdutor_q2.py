@@ -22,7 +22,7 @@ transducoes = {
     'q10': '',
     'q11': '',
     'q12': '',
-    'q13': 'cavalodoidodocavalodoidao',
+    'q13': 'Fq30clG%6pYf',
 }
 
 
@@ -68,7 +68,7 @@ estados_finais = set(["q0", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9"
 
 #Instância
 transdutor_computador = Automato.Transdutores(estados, alfabeto_entrada, alfabeto_saida, funcao_de_transicao, transducoes, estado_inicial, estados_finais)
-print(transdutor_computador.reconhecer_cadeia("""O computador é uma \
+print(transdutor_computador.transduzir_cadeia("""O computador é uma \
 máquina capaz de variados tipos de tratamento automático de informações \
 ou processamento de dados. Entende-se por computador um sistema físico \
 que realiza algum tipo de computação. Assumiu-se que os computadores \

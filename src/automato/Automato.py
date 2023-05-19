@@ -20,7 +20,7 @@ class Automato:
     fita: deque[str]
 
     def __init__(self, estados, alfabeto, transicoes,
-                estado_inicial, conj_estados_finais):
+        estado_inicial, conj_estados_finais):
         self.estados: set = estados
         self.alfabeto: set = alfabeto
         self.transicoes = transicoes
@@ -111,6 +111,9 @@ class MaquinaEstados:
     def reconhecer_cadeia(self, cadeia):
         """Reconhece uma cadeia na fita usando recursão."""
 
+        if cadeia == "":
+            return True if self.estado_atual in self.estados_finais else False
+
         if self.cadeia_restante == None:
             self.movimentos = []
             self.movimentos.append((self.estado_atual, cadeia))
@@ -137,33 +140,29 @@ class Transdutores(Automato):
         self.alfabeto_saida = alfabeto_saida
         self.transducoes = transducoes
         self._cadeia_saida = ""
+        self.posicao_cursor = 0
 
     def reconhecer_cadeia(self, cadeia):
         """Reconhece uma cadeia na fita usando recursão."""
-
-
-        # cadeia = ("25", "50", "100")
- 
         if self.maquina_estados.cadeia_restante == None:
             self.movimentos = []
             self.movimentos.append((self.maquina_estados.estado_atual, ''.join(cadeia)))
             self.posicao_cursor = 0
 
-            if self.transducoes[self.maquina_estados.estado_atual] == "cavalodoidodocavalodoidao":
+            if self.transducoes[self.maquina_estados.estado_atual] == "Fq30clG%6pYf":
                 self._cadeia_saida = str(self.posicao_cursor - 10)
             else:
                 self._cadeia_saida = self.transducoes[self.maquina_estados.estado_atual]
         
         resultado = False
-        self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
-        if (self.maquina_estados.estado_atual, cadeia[0]) in self.maquina_estados.transicao.keys():
+        if self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]:
             
             self.maquina_estados.estado_atual = self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
-            if self.transducoes[self.maquina_estados.estado_atual] == "cavalodoidodocavalodoidao":
+            if self.transducoes[self.maquina_estados.estado_atual] == "Fq30clG%6pYf":
                 self._cadeia_saida += str(self.posicao_cursor - 10) + " "
             else:
                 self._cadeia_saida += self.transducoes[self.maquina_estados.estado_atual]
-                
+            
             self.posicao_cursor += 1
             self.maquina_estados.cadeia_restante = cadeia[1:]
             self.movimentos.append((self.maquina_estados.estado_atual, self.maquina_estados.cadeia_restante))
@@ -173,6 +172,38 @@ class Transdutores(Automato):
                 resultado = self.reconhecer_cadeia(self.maquina_estados.cadeia_restante)
         else:            
             return False
+        
         self.maquina_estados.estado_atual = self.maquina_estados.estado_inical
         self.maquina_estados.cadeia_restante = None
         return resultado
+
+    def transduzir_cadeia(self, cadeia):
+        """Transduz uma cadeia na fita usando recursão."""
+
+        # Fim da leiura da cadeia
+        if cadeia == "" or cadeia == tuple():
+            return self._cadeia_saida if self.maquina_estados.estado_atual in self.estados_finais else False
+        
+
+        # Transição não definida
+        if (self.maquina_estados.estado_atual, cadeia[0]) not in self.maquina_estados.transicao.keys():
+            try:
+                self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
+            except:
+                return False
+        
+        self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
+        # Fazendo a mudança de estado
+        self.maquina_estados.estado_atual = self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
+        # Construindo cadeia de saída
+        if self.transducoes[self.maquina_estados.estado_atual] == "Fq30clG%6pYf":
+            self._cadeia_saida += str(self.posicao_cursor - 10) + " "
+        else:
+            self._cadeia_saida += self.transducoes[self.maquina_estados.estado_atual]
+        # Modificando a posição do cursor
+        self.posicao_cursor += 1
+
+        resultado = self.transduzir_cadeia(cadeia[1:])
+        self._cadeia_saida = ""
+        return resultado
+        
