@@ -192,13 +192,13 @@ class Transdutores(Automato):
         if (self.maquina_estados.estado_atual, cadeia[0]) not in self.maquina_estados.transicao.keys():
             try:
                 self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
-            except:
+            except KeyError:
                 # Reseta resetando variáveis da máquina de estados
+                print("Transição não definida")
                 self._cadeia_saida = ""
                 self.posicao_cursor = 0
                 return False
         
-        self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
         # Fazendo a mudança de estado
         self.maquina_estados.estado_atual = self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
         # Construindo cadeia de saída
@@ -211,4 +211,3 @@ class Transdutores(Automato):
 
         # Retornando resultado da função
         return self.transduzir_cadeia(cadeia[1:])
-        
