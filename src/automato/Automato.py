@@ -182,14 +182,20 @@ class Transdutores(Automato):
 
         # Fim da leiura da cadeia
         if cadeia == "" or cadeia == tuple():
-            return self._cadeia_saida if self.maquina_estados.estado_atual in self.estados_finais else False
-        
+            cadeia_final = self._cadeia_saida
+            # Reseta resetando variáveis da máquina de estados
+            self._cadeia_saida = ""
+            self.posicao_cursor = 0
+            return cadeia_final if self.maquina_estados.estado_atual in self.estados_finais else False
 
         # Transição não definida
         if (self.maquina_estados.estado_atual, cadeia[0]) not in self.maquina_estados.transicao.keys():
             try:
                 self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
             except:
+                # Reseta resetando variáveis da máquina de estados
+                self._cadeia_saida = ""
+                self.posicao_cursor = 0
                 return False
         
         self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
@@ -203,7 +209,6 @@ class Transdutores(Automato):
         # Modificando a posição do cursor
         self.posicao_cursor += 1
 
-        resultado = self.transduzir_cadeia(cadeia[1:])
-        self._cadeia_saida = ""
-        return resultado
+        # Retornando resultado da função
+        return self.transduzir_cadeia(cadeia[1:])
         
