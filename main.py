@@ -1,1 +1,1 @@
-from src.automato import Automato
+import questoes

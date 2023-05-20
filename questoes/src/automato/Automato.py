@@ -17,7 +17,6 @@ class Automato:
     transicoes: dict[dict[str, str]]
     estado_inicial: str
     conj_estados_finais: set[str]
-    fita: deque[str]
 
     def __init__(self, estados, alfabeto, transicoes,
         estado_inicial, conj_estados_finais):
@@ -26,7 +25,6 @@ class Automato:
         self.transicoes = transicoes
         self.estado_inicial = estado_inicial
         self.estados_finais = conj_estados_finais
-        self.fita = deque()
         self.cursor = 0
         self.maquina_estados: MaquinaEstados = MaquinaEstados(self)
 
@@ -40,29 +38,7 @@ class Automato:
         F: {self.estados_finais}\
         """
 
-    def escrever_fita(self, cadeia: str) -> None:
-        """Escreve uma cadeia de caracteres na fita."""
-        self.fita.clear()
-        self.fita = deque(cadeia)
-
-    def reconhecer_cadeia_alt(self, cadeia: str):
-        """Reconhece uma cadeia de caracteres na fita usando uma
-        estrutura do tipo fila (deque).
-        """
-        self.maquina_estados.resetar()    
-        self.escrever_fita(cadeia)
-        self.maquina_estados.gravar_movimento(self.fita)
-        while self.fita:
-            simbolo = self.fita.popleft()
-            try:
-                self.maquina_estados.config_seguinte(simbolo)
-                self.maquina_estados.gravar_movimento(self.fita)
-            except KeyError:
-                return False
-        estado_parada = self.maquina_estados.estado_atual
-        return bool(estado_parada in self.estados_finais)
     
-
 # Maquina de estados
 class MaquinaEstados:
     """Classe que implementa uma máquina de estados finitos 
@@ -73,7 +49,6 @@ class MaquinaEstados:
     estado_inicial: str
     estados_finais: set[str]
 
-
     def __init__(self, automato: Automato):
         self.transicao = automato.transicoes
         self.estados_finais = automato.estados_finais
@@ -83,22 +58,6 @@ class MaquinaEstados:
         self.posicao_cursor = 0
         self.movimentos = list()
     
-    def config_seguinte(self, simbolo):
-        """Aplica a função de transição δ(p, σ) -> q."""
-        if simbolo != "\0":
-            self.estado_atual = self.transicao[self.estado_atual][simbolo]
-            self.posicao_cursor += 1
-
-    def gravar_movimento(self, cadeia: deque[str]):
-        """Retorna o histórico de movimentos da máquina de estados."""
-        self.movimentos.append((self.estado_atual, "".join(cadeia)))
-
-    def apresentar_movimentos(self):
-        """Formata o conteúdo do histórico de movimentos da máquina de 
-        estados usando o símbolo da catraca.
-        """
-        mov_formatados = str(self.movimentos).replace("), ", ") ⊢ ")
-        return mov_formatados
 
     def resetar(self):
         """Reseta a máquina de estados."""
