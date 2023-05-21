@@ -19,6 +19,6 @@ delta = {
 q0 = 'q0'
 F = {"q3", "q7"}
 
-alpha = Automato.Automato(Q, Alfabeto, delta, q0, F)
+beta = Automato.Automato(Q, Alfabeto, delta, q0, F)
 
-print(alpha.maquina_estados.reconhecer_cadeia("bbcbbcbcaaa"))
+

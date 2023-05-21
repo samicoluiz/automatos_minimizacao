@@ -16,5 +16,3 @@ F = {"q1", "q3", "q4"}
 
 charlie = Automato.Automato(Q, Alfabeto, delta, q0, F)
 
-print(charlie.maquina_estados.reconhecer_cadeia("ba"), "não é aceito")
-print(charlie.maquina_estados.reconhecer_cadeia("b"), "é aceito")
