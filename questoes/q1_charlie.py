@@ -1,4 +1,4 @@
-from src.automato import Automato
+from questoes.src.automato import Automato
 
 Q = {"q0", "q1", "q2", "q3", "q4"}
 Alfabeto = {"a", "b"}

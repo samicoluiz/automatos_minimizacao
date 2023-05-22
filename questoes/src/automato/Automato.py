@@ -7,7 +7,7 @@ class Automato:
     Σ: Alfabeto
     δ: Função de transição
     q0: Estado inicial
-    F: Conjunto de estados finai
+    F: Conjunto de estados finais
     """
 
     estados: set[str]
@@ -18,8 +18,8 @@ class Automato:
 
     def __init__(self, estados, alfabeto, transicoes,
         estado_inicial, conj_estados_finais):
-        self.estados: set = estados
-        self.alfabeto: set = alfabeto
+        self.estados = estados
+        self.alfabeto = alfabeto
         self.transicoes = transicoes
         self.estado_inicial = estado_inicial
         self.estados_finais = conj_estados_finais
@@ -27,9 +27,9 @@ class Automato:
         self.maquina_estados: MaquinaEstados = MaquinaEstados(self)
 
     def __repr__(self) -> str:
-        return f"""\
+        return f"""
         M = (Q, Σ, δ, q0, F)
-        Q: {{{','.join(self.estados)}}}
+        Q: {{{', '.join(self.estados)}}}
         Σ: {{{self.alfabeto}}}
         δ: {self.maquina_estados.transicao}
         q0: {self.estado_inicial}
@@ -56,15 +56,6 @@ class MaquinaEstados:
         self.posicao_cursor = 0
         self.movimentos = list()
 
-
-    def resetar(self):
-        """Reseta a máquina de estados."""
-        self.estado_atual = self.estado_inical
-        self.cadeia_restante = None
-        self.posicao_cursor = 0
-        self.movimentos = list()
-
-    # Opcao com recursao
     def reconhecer_cadeia(self, cadeia, movimentos=[]):
         """Reconhece uma cadeia na fita usando recursão."""
         
@@ -106,6 +97,7 @@ class Transdutores(Automato):
         """Transduz uma cadeia na fita usando recursão."""
 
         # Fim da leiura da cadeia
+        # porque uma tupla vazia?
         if cadeia == "" or cadeia == tuple():
             estado_final = self.maquina_estados.estado_atual
             cadeia_final = self._cadeia_saida
@@ -117,6 +109,7 @@ class Transdutores(Automato):
 
         # Transição não definida
         if (self.maquina_estados.estado_atual, cadeia[0]) not in self.maquina_estados.transicao.keys():
+            # porque testar 2 vezes se a transição atual existe?
             try:
                 self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
             except KeyError:
@@ -130,6 +123,7 @@ class Transdutores(Automato):
         # Fazendo a mudança de estado
         self.maquina_estados.estado_atual = self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
         # Construindo cadeia de saída
+        # o que siginifica essa cadeia especifica?
         if self.transducoes[self.maquina_estados.estado_atual] == "Fq30clG%6pYf":
             self._cadeia_saida += str(self.posicao_cursor - 10) + " "
         else:
