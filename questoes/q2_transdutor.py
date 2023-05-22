@@ -1,4 +1,4 @@
-from src.automato import Automato
+from questoes.src.automato import Automato
 from collections import defaultdict
 import re
 

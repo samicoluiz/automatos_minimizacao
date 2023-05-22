@@ -1,5 +1,5 @@
 # Automato de teste
-from src.automato import Automato
+from questoes.src.automato import Automato
 
 
 estados = set(["0", "25", "50", "75", "100", "125", "150", "175"])

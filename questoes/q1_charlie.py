@@ -1,4 +1,4 @@
-from src.automato import Automato
+from questoes.src.automato import Automato
 
 Q = {"q0", "q1", "q2", "q3", "q4"}
 Alfabeto = {"a", "b"}
@@ -16,5 +16,3 @@ F = {"q1", "q3", "q4"}
 
 charlie = Automato.Automato(Q, Alfabeto, delta, q0, F)
 
-print(charlie.maquina_estados.reconhecer_cadeia("ba"), "não é aceito")
-print(charlie.maquina_estados.reconhecer_cadeia("b"), "é aceito")

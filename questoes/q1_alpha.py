@@ -1,4 +1,4 @@
-from src.automato import Automato
+from questoes.src.automato import Automato
 
 Q = {"q0", "q1", "q2"}
 Alfabeto = {"a", "b", "c"}
@@ -14,5 +14,3 @@ q0 = 'q0'
 F = {"q0", "q1", "q2"}
 
 alpha = Automato.Automato(Q, Alfabeto, delta, q0, F)
-
-print(alpha.maquina_estados.reconhecer_cadeia("acb"))
