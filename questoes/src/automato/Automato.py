@@ -56,10 +56,11 @@ class MaquinaEstados:
         self.posicao_cursor = 0
         self.movimentos = list()
 
-    def reconhecer_cadeia(self, cadeia, movimentos=[]):
+    def processar_cadeia(self, cadeia, primeira_chamada=True):
         """Reconhece uma cadeia na fita usando recursão."""
-        
-        movimentos.append((self.estado_atual, cadeia))
+        if primeira_chamada:
+            self.movimentos = []
+            self.movimentos.append((self.estado_atual, cadeia))
 
         # Fim da leiura da cadeia
         if cadeia == "":
@@ -67,7 +68,6 @@ class MaquinaEstados:
             # Resetando variáveis da máquina de estados
             self.estado_atual = self.estado_inical
             # Resultado
-            self.movimentos = movimentos
             return True if estado_final in self.estados_finais else False
 
         # Transição não definida
@@ -75,14 +75,14 @@ class MaquinaEstados:
             # Resetando variáveis da máquina de estados
             self.estado_atual = self.estado_inical
             # Resultado
-            self.movimentos = movimentos
             return False
 
         # Fazendo a mudança de estado
         self.estado_atual = self.transicao[(self.estado_atual, cadeia[0])]
-
+        self.movimentos.append((self.estado_atual, cadeia[1:]))
+        primeira_chamada = False
         # Retornando resultado da função
-        return self.reconhecer_cadeia(cadeia[1:])
+        return self.processar_cadeia(cadeia[1:], False)
 
 
 class Transdutores(Automato):
@@ -93,7 +93,7 @@ class Transdutores(Automato):
         self._cadeia_saida = ""
         self.posicao_cursor = 0
 
-    def transduzir_cadeia(self, cadeia):
+    def processar_cadeia(self, cadeia):
         """Transduz uma cadeia na fita usando recursão."""
 
         # Fim da leiura da cadeia
@@ -114,7 +114,7 @@ class Transdutores(Automato):
                 self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
             except KeyError:
                 # Reseta resetando variáveis da máquina de estados
-                print("Transição não definida")
+                print("\nTransição não definida", end="")
                 self._cadeia_saida = ""
                 self.posicao_cursor = 0
                 self.maquina_estados.estado_atual = self.maquina_estados.estado_inical
@@ -132,4 +132,4 @@ class Transdutores(Automato):
         self.posicao_cursor += 1
 
         # Retornando resultado da função
-        return self.transduzir_cadeia(cadeia[1:])
+        return self.processar_cadeia(cadeia[1:])
