@@ -114,7 +114,7 @@ class Transdutores(Automato):
                 self.maquina_estados.transicao[(self.maquina_estados.estado_atual, cadeia[0])]
             except KeyError:
                 # Reseta resetando variáveis da máquina de estados
-                print("Transição não definida")
+                print("\nTransição não definida", end="")
                 self._cadeia_saida = ""
                 self.posicao_cursor = 0
                 self.maquina_estados.estado_atual = self.maquina_estados.estado_inical
@@ -125,7 +125,7 @@ class Transdutores(Automato):
         # Construindo cadeia de saída
         # o que siginifica essa cadeia especifica?
         if self.transducoes[self.maquina_estados.estado_atual] == "Fq30clG%6pYf":
-            self._cadeia_saida += str(self.posicao_cursor - 10) + ", "
+            self._cadeia_saida += str(self.posicao_cursor - 10) + " "
         else:
             self._cadeia_saida += self.transducoes[self.maquina_estados.estado_atual]
         # Modificando a posição do cursor

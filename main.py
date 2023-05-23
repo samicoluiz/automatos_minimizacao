@@ -142,7 +142,69 @@ Nº: """)
 
 
     elif n == "3":
-        pass
+        opcao = "2"
+        while opcao == "2":
+            os.system("clear")
+            print(cabecalho + "->QUESTÃO 1\n"+"  ->Máquina de Refrigerante\n")
+            n = input("""Nº - OPÇÃO
+1  - Inserir uma moeda por vez
+2  - Insirir moedas de uma vez
+
+Nº: """)
+            if n == "1":
+                opcao = "1"
+                while opcao == "1":
+                    os.system("clear")
+                    print(cabecalho + "->QUESTÃO 1\n"+"  ->Máquina de Refrigerante\n"+"    ->Inserir uma moeda por vez\n")
+                    inserir = 1
+                    lista = []
+                    while inserir == 1:
+                        lista.append(input("Insira uma moeda (25, 50, 100): "))
+                        inserir = int(input("Inserir outra moeda? (1 - Sim, 0 - Não): "))
+                    print("\nResultado: ", maquina_refrigerante.processar_cadeia(tuple(lista)))
+                    opcao = input("""\nNº - OPÇÃO
+1  - Inserir novamente uma moeda por moeda
+2  - Selecionar outra opção
+3  - Voltar ao menu principal
+
+(qualquer outra tecla + enter - encerrar o programa)
+Nº: """)
+
+            elif n == "2":
+                opcao = "1"
+                while opcao == "1":
+                    os.system("clear")
+                    print(cabecalho + "->QUESTÃO 1\n"+"  ->Máquina de Refrigerante\n"+"    ->Inserir moedas de uma vez\n")
+
+                    lista = []
+                    entrada = input("Insira as moedas (25, 50, 100). Ex: 2550 : ")
+                    controle = 0
+                    while controle < len(entrada):
+                        if entrada[controle] == "1":
+                            lista.append(entrada[controle:controle+3])
+                            controle += 3
+                        else:
+                            lista.append(entrada[controle:controle+2])
+                            controle += 2
+                    print("\nResultado: ", maquina_refrigerante.processar_cadeia(tuple(lista)))
+                    opcao = input("""\nNº - OPÇÃO
+1  - Inserir novamente moedas de uma vez
+2  - Selecionar outra opção
+3  - Voltar ao menu principal
+
+(qualquer outra tecla + enter - encerrar o programa)
+Nº: """)
+
     else:
-        print("Encerrando programa...")
-        exit()
+        opcao = "0"
+
+os.system("clear")
+print("""
+
+░█████╗░██████╗░██████╗░██╗░██████╗░░█████╗░██████╗░░█████╗░██╗
+██╔══██╗██╔══██╗██╔══██╗██║██╔════╝░██╔══██╗██╔══██╗██╔══██╗██║
+██║░░██║██████╦╝██████╔╝██║██║░░██╗░███████║██║░░██║██║░░██║██║
+██║░░██║██╔══██╗██╔══██╗██║██║░░╚██╗██╔══██║██║░░██║██║░░██║╚═╝
+╚█████╔╝██████╦╝██║░░██║██║╚██████╔╝██║░░██║██████╔╝╚█████╔╝██╗
+░╚════╝░╚═════╝░╚═╝░░╚═╝╚═╝░╚═════╝░╚═╝░░╚═╝╚═════╝░░╚════╝░╚═╝
+""")
