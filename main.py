@@ -23,13 +23,13 @@ while opcao == "3":
 
     print("""Questões disponíveis:
 
-    Nº - QUESTÃO
-    1  - Questão 1
-    2  - Questão 2
-    3  - Questão 3
+Nº - QUESTÃO
+1  - Questão 1
+2  - Questão 2
+3  - Questão 3
 
-    (qualquer outra tecla + enter - encerrar o programa)
-    """)
+(qualquer outra tecla + enter - encerrar o programa)
+""")
 
     n = input("Escolha uma questão para prosseguir.\nNº: ")
 
@@ -70,13 +70,13 @@ while opcao == "3":
                             print(str(escolha[0].maquina_estados.movimentos[i]), end=" ⊢ ")
 
                     opcao = input("""
-                OPÇÕES:
-                1 - Validar outra cadeia
-                2 - Escolher outra Linguagem
-                3 - Voltar ao menu principal
-                
-                (qualquer outra tecla + enter - encerrar o programa)
-                Nº: """)
+OPÇÕES:
+1 - Validar outra cadeia
+2 - Escolher outra Linguagem
+3 - Voltar ao menu principal
+
+(qualquer outra tecla + enter - encerrar o programa)
+Nº: """)
 
     elif n == "2":
         opcao = "2"
@@ -112,14 +112,15 @@ Nº: """)
             computador eletromecânico foi construído por Konrad Zuse (1910–1995). \
             Atualmente, um microcomputador é também chamado computador pessoal ou \
             ainda computador doméstico."""))
+                    print()
 
                     opcao = input("""Nº - OPÇÃO
-                    1  - Validar com texto pronto
-                    2  - Escolher outra opção
-                    3  - Voltar ao menu principal
-                    
-                    (qualquer outra tecla + enter - encerrar o programa)
-                    Nº: """)
+1  - Validar com texto pronto
+2  - Escolher outra opção
+3  - Voltar ao menu principal
+
+(qualquer outra tecla + enter - encerrar o programa)
+Nº: """)
 
             elif n == "2":
                 opcao = "1"
@@ -131,14 +132,15 @@ Nº: """)
 
                     print("Posições que aparecem 'computador':", end=" ")
                     print(transdutor.processar_cadeia(texto))
+                    print()
 
                     opcao = input("""Nº - OPÇÃO
-                    1  - Verificar outra cadeia
-                    2  - Escolher outra opção
-                    3  - Voltar ao menu principal
-                    
-                    (qualquer outra tecla + enter - encerrar o programa)
-                    Nº: """)
+1  - Verificar outra cadeia
+2  - Escolher outra opção
+3  - Voltar ao menu principal
+
+(qualquer outra tecla + enter - encerrar o programa)
+Nº: """)
 
 
     elif n == "3":
