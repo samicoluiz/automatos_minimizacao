@@ -2,13 +2,13 @@ from questoes import q2_transdutor
 
 #Aceitacao
 def test_validar_transdutor_computador_1() -> None:
-    cadeia = "Era uma vez, um computador muito sabido que o Luiz Antônio comprou."
-    esperado = "16 "
+    cadeia = "O computador é um conjunto de componentes eletrônicos capaz de executar variados tipos de algoritmos e tratamento de informações (processamento de dados)."
+    esperado = "2 "
     assert q2_transdutor.transdutor_computador.processar_cadeia(cadeia) == esperado
 
 def test_validar_transdutor_computador_2() -> None:
-    cadeia = "Quando eu comprei um computador, eu fiquei muito feliz, pois ter um computador era meu sonho."
-    esperado = "21 68 "
+    cadeia = "Na loja de eletrônicos, encontrei um computador incrível. Decidi comprar o computador para substituir o antigo."
+    esperado = "37 75 "
     assert q2_transdutor.transdutor_computador.processar_cadeia(cadeia) == esperado
 
 def test_validar_transdutor_computador_3() -> None:
@@ -22,22 +22,22 @@ def test_validar_transdutor_computador_4() -> None:
     assert q2_transdutor.transdutor_computador.processar_cadeia(cadeia) == esperado
 
 def test_validar_transdutor_computador_5() -> None:
-    cadeia = "Todos usamos computador."
-    esperado = "13 "
+    cadeia = "Eu trabalho com computador durante o dia, à noite gosto de jogar jogos no meu computador e nos fins de semana utilizo o computador para aprender novas habilidades."
+    esperado = "16 78 120 "
     assert q2_transdutor.transdutor_computador.processar_cadeia(cadeia) == esperado
 
 #Rejeicao
 def test_validar_transdutor_computador_6() -> None:
-    cadeia = "Os primeiros computadores eram grandes e pesados."
-    esperado = "13 "
+    cadeia = "Os computadores são ferramentas essenciais no mundo moderno, pois permitem a comunicação global, o acesso a informações instantâneas e a realização de tarefas complexas de maneira eficiente."
+    esperado = "3 "
     assert q2_transdutor.transdutor_computador.processar_cadeia(cadeia) != esperado
 
 def test_validar_transdutor_computador_7() -> None:
-    cadeia = "Microcomputador é também chamado computador pessoal ou ainda computador doméstico."
-    esperado = "5 33 61 "
+    cadeia = "O microcomputador, também conhecido como PC, é uma forma popular de computador pessoal. "
+    esperado = "2 68 "
     assert q2_transdutor.transdutor_computador.processar_cadeia(cadeia) != esperado
 
 def test_validar_transdutor_computador_8() -> None:
-    cadeia = "Todos somos computares, muahahah."
-    esperado = "12 "
+    cadeia = "A computadorização das empresas trouxe avanços significativos, automatizando processos, aumentando a eficiência e proporcionando um ambiente de trabalho mais produtivo."
+    esperado = "2 "
     assert q2_transdutor.transdutor_computador.processar_cadeia(cadeia) != esperado
